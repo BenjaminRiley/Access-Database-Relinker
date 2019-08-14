@@ -34,7 +34,7 @@ To prevent the function running repeatedly, it may be preferable to use a dedica
 
 ```vbscript
 Private Sub Form_Load()
-    If LinkedBackendType <> NotLinked Then
+    If LinkedBackendType = NotLinked Then
         RelinkTables "Linked Table", "\\Server\Folder\MyBackend.accdb"
     End If
 End Sub
@@ -45,8 +45,8 @@ The `RelinkTables` function returns a `BackendType` Enum (included in the module
 ```vbscript
 'Shows an error message and then quits if backend missing using returned value
 Private Sub Form_Load()
-    If Not RelinkTables("Linked Table", "\\Server\Folder\MyBackend.accdb") Then
-        MsgBox("Couldn't find the backend!", vbOKOnly + vbCritical)
+    If RelinkTables("Linked Table", "\\Server\Folder\MyBackend.accdb") = NotLinked Then
+        MsgBox "Couldn't find the backend!", vbOKOnly + vbCritical
         Application.Quit
     End If
 End Sub
@@ -55,7 +55,7 @@ End Sub
 ```vbscript
 'Changes the caption of the "Relink output" label on the form using the LinkedBackendType property
 Private Sub Form_Load()
-    RelinkTables("Linked Table", "\\Server\Folder\MyBackend.accdb")
+    RelinkTables "Linked Table", "\\Server\Folder\MyBackend.accdb"
     Select Case LinkedBackendType
         Case DevBE
             Relink_output.Caption = "Using development backend."
