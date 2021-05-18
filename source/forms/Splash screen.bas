@@ -10,8 +10,8 @@ Begin Form
     Width =4920
     DatasheetFontHeight =11
     ItemSuffix =16
-    Right =20208
-    Bottom =9156
+    Right =21975
+    Bottom =11385
     DatasheetGridlinesColor =14806254
     RecSrcDt = Begin
         0x7746d12fb254e540
@@ -105,9 +105,9 @@ Begin Form
                     OverlapFlags =85
                     TextAlign =1
                     Left =360
-                    Top =972
+                    Top =975
                     Width =4530
-                    Height =552
+                    Height =555
                     BorderColor =8355711
                     ForeColor =8355711
                     Name ="Label12"
@@ -116,9 +116,9 @@ Begin Form
                     GroupTable =1
                     GridlineColor =10921638
                     LayoutCachedLeft =360
-                    LayoutCachedTop =972
+                    LayoutCachedTop =975
                     LayoutCachedWidth =4890
-                    LayoutCachedHeight =1524
+                    LayoutCachedHeight =1530
                     RowStart =1
                     RowEnd =1
                     LayoutGroup =1
@@ -135,8 +135,10 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 Option Compare Database
+'@Folder Forms
 
-'Switch for editing the splash screen in LayoutView. Remember to set it to False before deploying the frontend or it will 'break'.
+'Switch for editing the splash screen in LayoutView. Remember to set it to False before deploying the frontend or it
+'   will 'break'.
 Private Const IsSplashDisabled As Boolean = False
 
 'Change this to point to the desired backend file on the server.
@@ -152,11 +154,13 @@ Private Const MainForm As String = "Main form"
 'Message to display if the backend cannot be found.
 Private Const ErrorMessage As String = "The program failed to locate the backend database."
 
+
 Private Sub Form_Load()
     If Not IsSplashDisabled Then
         DoRelink
     End If
 End Sub
+
 
 Private Sub DoRelink()
     If RelinkTables(LinkedTable, ServerPath) Then
@@ -177,9 +181,10 @@ Private Sub DoRelink()
     End If
 End Sub
 
+
 Private Sub OpenMainAndExitSplash()
     'Open Main form
-    If Not CurrentProject.AllForms(MainForm).IsLoaded Then
+    If Not CurrentProject.AllForms.Item(MainForm).IsLoaded Then
         DoCmd.OpenForm MainForm
     End If
     'Close splash form

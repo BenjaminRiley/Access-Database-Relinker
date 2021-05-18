@@ -10,8 +10,8 @@ Begin Form
     Width =4932
     DatasheetFontHeight =11
     ItemSuffix =11
-    Right =7020
-    Bottom =8940
+    Right =21720
+    Bottom =11415
     DatasheetGridlinesColor =14806254
     RecSrcDt = Begin
         0x1ba91f6bb054e540
@@ -138,7 +138,15 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Option Explicit
 Option Compare Database
+
+'@Folder Forms
+
+'Suppress Rubberduck code inspections as Rubberduck is unable to resolve form
+'   elements as of v2.5.2.
+'@IgnoreModule VariableNotAssigned, UnassignedVariableUsage, UndeclaredVariable
+
 
 Private Sub Form_Load()
     Dim databaseMessageOutput As String

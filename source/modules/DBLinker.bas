@@ -1,7 +1,7 @@
 Option Explicit
 Option Compare Database
 
-'Automatic Database Relinker v1.0.0
+'Automatic Database Relinker v1.0.1
 'https://github.com/BenjaminRiley/Access-Database-Relinker
 
 Public Enum BackendType
@@ -12,13 +12,13 @@ Public Enum BackendType
 End Enum
 
 Private pLinkedBackendType As BackendType
+
 'Stores the type of database linked at runtime.
 Public Property Get LinkedBackendType() As BackendType
     LinkedBackendType = pLinkedBackendType
 End Property
 
 
-Public Function RelinkTables(ReferenceTableName As String, Optional ServerBackendPath As String) As BackendType
 'DESCRIPTION:
 '   Function to relink tables on startup. The goal is to allow usage of a shared, split database away from the network
 '       and development with a local backend file without having to manually relink the backend every time a change is
@@ -34,7 +34,9 @@ Public Function RelinkTables(ReferenceTableName As String, Optional ServerBacken
 '   ServerBackendPath - Path to backend stored on the server.
 'RETURNS:
 '   Sets LinkedBackend and returns it
-    
+Public Function RelinkTables(ByVal ReferenceTableName As String, _
+    Optional ByVal ServerBackendPath As String = vbNullString _
+) As BackendType
     'Initialise return value
     pLinkedBackendType = NotLinked
     RelinkTables = pLinkedBackendType
@@ -43,7 +45,7 @@ Public Function RelinkTables(ReferenceTableName As String, Optional ServerBacken
     Dim CurrentBackendPath As String
     Dim FoundBackendType As BackendType
 
-    CurrentBackendPath = CurrentDb.TableDefs(ReferenceTableName).connect
+    CurrentBackendPath = CurrentDb.TableDefs.Item(ReferenceTableName).connect
     FoundBackendType = FindBackend(ServerBackendPath, BackendPath)
     
     If FoundBackendType And Len(BackendPath) > 0 Then
@@ -68,7 +70,7 @@ Public Function RelinkTables(ReferenceTableName As String, Optional ServerBacken
     End If
 End Function
 
-Private Function FindBackend(ServerBackendPath As String, ByRef BackendPath) As BackendType
+
 'DESCRIPTION:
 '   Determines which path to use.
 'PARAMETERS:
@@ -76,7 +78,7 @@ Private Function FindBackend(ServerBackendPath As String, ByRef BackendPath) As 
 '   BackendPath - Output variable for the located path.
 'RETURNS:
 '   BackendType enum corresponding to the location of the found backend.
-
+Private Function FindBackend(ByVal ServerBackendPath As String, ByRef BackendPath As String) As BackendType
     'Initialise this to a default here so we don't forget later
     FindBackend = NotLinked
 
@@ -86,8 +88,10 @@ Private Function FindBackend(ServerBackendPath As String, ByRef BackendPath) As 
     Dim FrontendPath As String
     Dim FrontendExtension As String
     
-    FrontendPath = Left(CurrentProject.FullName, InStrRev(CurrentProject.FullName, ".") - 1)
-    FrontendExtension = Right(CurrentProject.FullName, Len(CurrentProject.FullName) - InStrRev(CurrentProject.FullName, "."))
+    FrontendPath = Left$(CurrentProject.FullName, InStrRev(CurrentProject.FullName, ".") - 1)
+    FrontendExtension = Right$(CurrentProject.FullName, _
+        Len(CurrentProject.FullName) - InStrRev(CurrentProject.FullName, ".") _
+    )
     
     DevBackendPath = FrontendPath & "_be_dev." & FrontendExtension
     LocalBackendPath = FrontendPath & "_be." & FrontendExtension

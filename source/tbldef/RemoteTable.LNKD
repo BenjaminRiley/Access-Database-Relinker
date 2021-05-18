@@ -1,4 +1,4 @@
 ﻿RemoteTable
-;DATABASE=C:\PretendThisIsANetworkShare\RelinkExample_be.accdb
+;DATABASE=.\RelinkExample_be.accdb
 RemoteTable
 ID
