@@ -113,4 +113,4 @@ When used as a `Boolean` (e.g. in an `If … Then` statement), `NotLinked` shoul
 
 ## Other notes
 
-The example Access project makes use of [msaccess-vcs-integration](https://github.com/timabell/msaccess-vcs-integration) to aid with version control.
+The example Access project makes use of [msaccess-vcs-integration](https://github.com/msaccess-vcs-integration/msaccess-vcs-integration) to aid with version control.
